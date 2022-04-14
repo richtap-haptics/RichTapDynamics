@@ -109,9 +109,7 @@ class MainActivity : AppCompatActivity() {
             // NOTE: Don't pass filepath as String.
             //  Don't call sendLoopParameter before calling playHaptic
             val heFile = File(heFilePath)
-            RichTapUtils.getInstance().playHaptic(heFile, 100, 255) // 循环100次
-            sleep(500)
-            RichTapUtils.getInstance().sendLoopParameter(255, 350)
+            RichTapUtils.getInstance().playHaptic(heFile, 100, 350, 255, 0) // 循环100次
         }
         binding.btnStopLoop.setOnClickListener {
             RichTapUtils.getInstance().stop()
