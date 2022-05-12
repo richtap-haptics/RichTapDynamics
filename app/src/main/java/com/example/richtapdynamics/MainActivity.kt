@@ -3,6 +3,7 @@ package com.example.richtapdynamics
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.PointF
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +19,8 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
-import java.lang.Thread.sleep
+import java.lang.Exception
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,9 +29,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var heBowDrag: String
     private lateinit var heBowRelease: String
+    private lateinit var heSniperRifle: String
     private lateinit var heFilePath: String
     private lateinit var bezierCurve: BezierCurve
     private var currentPrebakedId = 0
+
+    private val mediaPlayer = MediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         // 从assets目录加载效果HE文件内容
         heBowDrag = loadHeFromAssets("bow_drag.he")
         heBowRelease = loadHeFromAssets("bow_release.he")
+        heSniperRifle = loadHeFromAssets("Sniper Rifle.he")
         heFilePath = dumpAssetToDataStorage("heartbeat.he")
 
         // 构建一条贝塞尔曲线：起点（0, 0）-> 终点（100, 255）
@@ -107,18 +113,39 @@ class MainActivity : AppCompatActivity() {
         // 演示如何循环播放一个振动效果，以及对它打断/停止
         binding.btnPlayLoop.setOnClickListener {
             // NOTE: Don't pass filepath as String.
-            //  Don't call sendLoopParameter before calling playHaptic
+            //  Don't call sendLoopParameter before calling playHaptic.
             val heFile = File(heFilePath)
             RichTapUtils.getInstance().playHaptic(heFile, 100, 350, 255, 0) // 循环100次
         }
         binding.btnStopLoop.setOnClickListener {
             RichTapUtils.getInstance().stop()
         }
+
+        // Demonstrate how to play haptics with a sound effect
+        // 演示如何伴随音效一起振动
+        binding.ivGun.setOnClickListener {
+            try {
+                val fd = assets.openFd("Sniper Rifle.wav")
+                mediaPlayer.run {
+                    reset()
+                    setDataSource(fd.fileDescriptor, fd.startOffset, fd.length)
+                    prepare()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            mediaPlayer.start()
+            RichTapUtils.getInstance().playHaptic(heSniperRifle, 0)
+        }
     }
 
     override fun onDestroy() {
         // RichTap SDK反初始化
         RichTapUtils.getInstance().quit()
+
+        mediaPlayer.stop()
+        mediaPlayer.release()
 
         super.onDestroy()
     }
@@ -173,7 +200,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            R.id.close -> finish()
+            R.id.close -> {
+                finish()
+                exitProcess(0)
+            }
         }
         return true
     }

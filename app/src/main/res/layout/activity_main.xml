@@ -31,6 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
+        android:progressTint="@color/purple_200"
+        android:thumbTint="@color/purple_500"
         android:max="100"/>
 
     <TextView
@@ -44,12 +46,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:orientation="horizontal">
         <Button
             android:id="@+id/btnPlayPre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:textAllCaps="false"
             android:text="Play"/>
         <Button
@@ -64,12 +66,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:orientation="horizontal">
         <Button
             android:id="@+id/btnPlayLoop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:textAllCaps="false"
             android:text="Play a haptic file (+loop)"/>
         <Button
@@ -80,6 +82,27 @@
             android:layout_marginEnd="5dp"
             android:textAllCaps="false"
             android:text="Stop"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        tools:text="Play haptics with a sound effect">
+        <ImageView
+            android:id="@+id/ivGun"
+            android:layout_width="200dp"
+            android:layout_height="128dp"
+            android:scaleType="fitXY"
+            android:layout_gravity="center"
+            android:src="@drawable/sniper_rifle" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Touch to fire!"/>
     </LinearLayout>
 
 </LinearLayout>
