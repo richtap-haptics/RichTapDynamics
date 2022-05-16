@@ -13,8 +13,7 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import com.example.richtapdynamics.databinding.ActivityMainBinding
 import com.apprichtap.haptic.RichTapUtils
-import com.apprichtap.haptic.base.PreBakedEffectId.PREBAKED_ID_MAX
-import com.apprichtap.haptic.base.PreBakedEffectId.PREBAKED_ID_MIN
+import com.apprichtap.haptic.base.PrebakedEffectId.*
 import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
@@ -98,14 +97,14 @@ class MainActivity : AppCompatActivity() {
         // 各个ID的具体含义参见 PreBakedEffectId.class
         currentPrebakedId = PREBAKED_ID_MIN
         binding.btnPlayPre.setOnClickListener {
-            RichTapUtils.getInstance().playExtPreBaked(currentPrebakedId, 255)
+            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, 255)
             binding.prebakedInfo.text = "Prebaked Effect - ID: $currentPrebakedId"
         }
         binding.btnPlayPreNext.setOnClickListener {
             if (++currentPrebakedId > PREBAKED_ID_MAX) {
                 currentPrebakedId = PREBAKED_ID_MIN
             }
-            RichTapUtils.getInstance().playExtPreBaked(currentPrebakedId, 255)
+            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, 255)
             binding.prebakedInfo.text = "Prebaked Effect - ID: $currentPrebakedId"
         }
 
