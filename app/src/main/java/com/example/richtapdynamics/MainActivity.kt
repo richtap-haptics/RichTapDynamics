@@ -96,13 +96,20 @@ class MainActivity : AppCompatActivity() {
         // 演示SDK的预置触感效果，Effect ID范围：[PREBAKED_ID_MIN, PREBAKED_ID_MAX]
         // 各个ID的具体含义参见 PreBakedEffectId.class
         currentPrebakedId = PREBAKED_ID_MIN
-        binding.btnPlayPre.setOnClickListener {
+        binding.btnPlayPrebaked.setOnClickListener {
             RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, 255)
             binding.prebakedInfo.text = "Prebaked Effect - ID: $currentPrebakedId"
         }
-        binding.btnPlayPreNext.setOnClickListener {
+        binding.btnPlayNext.setOnClickListener {
             if (++currentPrebakedId > PREBAKED_ID_MAX) {
                 currentPrebakedId = PREBAKED_ID_MIN
+            }
+            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, 255)
+            binding.prebakedInfo.text = "Prebaked Effect - ID: $currentPrebakedId"
+        }
+        binding.btnPlayPrevious.setOnClickListener {
+            if (--currentPrebakedId < PREBAKED_ID_MIN) {
+                currentPrebakedId = PREBAKED_ID_MAX
             }
             RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, 255)
             binding.prebakedInfo.text = "Prebaked Effect - ID: $currentPrebakedId"
