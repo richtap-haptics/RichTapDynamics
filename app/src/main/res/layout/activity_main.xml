@@ -8,38 +8,18 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/sdkInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:textColor="@color/purple_200"/>
-    <TextView
         android:id="@+id/txtHasRichTap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"
-        android:textColor="@color/purple_200"/>
-    <TextView
-        android:id="@+id/txtDraggingBow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp" />
-    <SeekBar
-        android:id="@+id/triggerBow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:progressTint="@color/purple_200"
-        android:thumbTint="@color/purple_500"
-        android:max="100"/>
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/prebakedInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="10dp"
         android:text="To feel the prebaked effects..."
         android:textColor="@color/purple_200"/>
@@ -69,39 +49,198 @@
             android:textAllCaps="false"
             android:text="Play Previous"/>
     </LinearLayout>
-
     <TextView
+        android:id="@+id/txtPreAmplitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:text="Play a haptic file (.HE) and loop"
+        android:text="Amplitude (200):"
         android:textColor="@color/purple_200"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+        <SeekBar
+            android:id="@+id/sbPrebakedAmp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:progressTint="@color/purple_200"
+            android:thumbTint="@color/purple_500"
+            android:progress="200"
+            android:min="0"
+            android:max="255"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="255"/>
+    </LinearLayout>
+
+    <!-- NEW BLOCK -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_marginTop="20dp"
+        tools:text="this is a separator line..."/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:text="Test loop playback and adjust parameters on the fly"
+        android:textColor="@color/purple_200"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal">
         <Button
             android:id="@+id/btnPlayLoop"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textAllCaps="false"
             android:text="Play"/>
         <Button
             android:id="@+id/btnStopLoop"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
             android:textAllCaps="false"
             android:text="Stop"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txtLoopAmplitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Amplitude (100):"
+        android:textColor="@color/purple_200"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+        <SeekBar
+            android:id="@+id/sbLoopAmp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:progressTint="@color/purple_200"
+            android:thumbTint="@color/purple_500"
+            android:progress="100"
+            android:min="0"
+            android:max="255"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="255"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtLoopFrequency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Frequency (0):"
+        android:textColor="@color/purple_200"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-200"/>
+        <SeekBar
+            android:id="@+id/sbLoopFreq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:progressTint="@color/purple_200"
+            android:thumbTint="@color/purple_500"
+            android:progress="0"
+            android:min="-200"
+            android:max="200"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="200"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtLoopInterval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Interval (0):"
+        android:textColor="@color/purple_200"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+        <SeekBar
+            android:id="@+id/sbLoopInterval"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:progressTint="@color/purple_200"
+            android:thumbTint="@color/purple_500"
+            android:progress="0"
+            android:min="0"
+            android:max="2000"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2000"/>
+    </LinearLayout>
+
+
+    <!-- NEW BLOCK -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
         android:layout_marginTop="20dp"
+        tools:text="this is a separator line..."/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:text="Play with a sound effect"
+        android:textColor="@color/purple_200"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:orientation="vertical"
         tools:text="Play haptics with a sound effect">

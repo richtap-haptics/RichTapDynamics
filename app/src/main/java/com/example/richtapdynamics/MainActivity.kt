@@ -2,11 +2,9 @@ package com.example.richtapdynamics
 
 import android.content.Context
 import android.content.res.AssetManager
-import android.graphics.PointF
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SeekBar
@@ -26,11 +24,8 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "RichTap-SAMPLE"
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var heBowDrag: String
-    private lateinit var heBowRelease: String
     private lateinit var heSniperRifle: String
     private lateinit var heFilePath: String
-    private lateinit var bezierCurve: BezierCurve
     private var currentPrebakedId = 0
 
     private val mediaPlayer = MediaPlayer()
@@ -42,78 +37,55 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize RichTap SDK
         // Make sure we're using the correct version of SDK
-        binding.sdkInfo.text = "RichTap SDK: ${RichTapUtils.VERSION_NAME}"
         RichTapUtils.getInstance().let {
             it.init(this)
             if (it.isSupportedRichTap) {
-                binding.txtHasRichTap.text = "Congrats! Your device supports high-fidelity haptic feedback which is powered by RichTap."
+                binding.txtHasRichTap.text = "Congrats! Your device supports high-fidelity haptic feedback, which is powered by RichTap."
             } else {
                 binding.txtHasRichTap.text = "Sorry, but your device only supports low-fidelity haptic feedback..."
             }
         }
 
         // 从assets目录加载效果HE文件内容
-        heBowDrag = loadHeFromAssets("bow_drag.he")
-        heBowRelease = loadHeFromAssets("bow_release.he")
         heSniperRifle = loadHeFromAssets("Sniper Rifle.he")
-        heFilePath = dumpAssetToDataStorage("heartbeat.he")
-
-        // 构建一条贝塞尔曲线：起点（0, 0）-> 终点（100, 255）
-        // 拉弓：按住往右拖动 / 放箭：松开手指 - 动态调整振动强度
-        binding.txtDraggingBow.text = "Drag & release to feel dynamic intensity change of the vibration"
-        bezierCurve = BezierCurve(PointF(0F,0F), PointF(100F, 255F)).apply {
-            setControlPoints(PointF(89F, 73.95F), PointF(99F, 140.25F))
-            buildBezierPoints()
-        }
-
-        // 用一个进度条模拟“拉弓-射箭”过程中的动态调参
-        binding.triggerBow.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                Log.d(TAG, "onProgressChanged: $progress, fromUser: $fromUser")
-                if (fromUser) {
-                    val amplitude = bezierCurve.getYFromX(progress)
-                    Log.d(TAG, ">> The new amplitude: $amplitude")
-                    if (amplitude > 0) {
-                        // Dynamically change the amplitude / intensity of the vibration
-                        // 动态调整振动的强度
-                        RichTapUtils.getInstance().sendLoopParameter(amplitude, 0)
-                    }
-                }
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Log.d(TAG, "onStartTrackingTouch")
-                // Keep playing a haptic (an infinite loop) till another haptic is played
-                // 开始拉弓，强度初始为1，无限循环
-                RichTapUtils.getInstance().playHaptic(heBowDrag, -1, 1)
-            }
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                Log.d(TAG, "onStopTrackingTouch")
-                seekBar.progress = 0
-                RichTapUtils.getInstance().playHaptic(heBowRelease, 0) // 模拟放箭
-            }
-        })
+        heFilePath = dumpAssetToDataStorage("Car Ignite.he")
 
         // 演示SDK的预置触感效果，Effect ID范围：[PREBAKED_ID_MIN, PREBAKED_ID_MAX]
         // 各个ID的具体含义参见 PreBakedEffectId.class
         currentPrebakedId = PREBAKED_ID_MIN
         binding.btnPlayPrebaked.setOnClickListener {
-            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, 255)
+            val amplitude = binding.sbPrebakedAmp.progress
+            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, amplitude)
             binding.prebakedInfo.text = "Prebaked Effect - ID: $currentPrebakedId"
         }
         binding.btnPlayNext.setOnClickListener {
             if (++currentPrebakedId > PREBAKED_ID_MAX) {
                 currentPrebakedId = PREBAKED_ID_MIN
             }
-            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, 255)
+            val amplitude = binding.sbPrebakedAmp.progress
+            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, amplitude)
             binding.prebakedInfo.text = "Prebaked Effect - ID: $currentPrebakedId"
         }
         binding.btnPlayPrevious.setOnClickListener {
             if (--currentPrebakedId < PREBAKED_ID_MIN) {
                 currentPrebakedId = PREBAKED_ID_MAX
             }
-            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, 255)
+            val amplitude = binding.sbPrebakedAmp.progress
+            RichTapUtils.getInstance().playExtPrebaked(currentPrebakedId, amplitude)
             binding.prebakedInfo.text = "Prebaked Effect - ID: $currentPrebakedId"
         }
+        // 调整预置效果的振动强度
+        binding.sbPrebakedAmp.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    binding.txtPreAmplitude.text = "Amplitude (${progress}):"
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+            }
+        })
 
         // Demonstrate how to play a haptic file instead of HE Json string
         // 演示如何循环播放一个振动效果，以及对它打断/停止
@@ -121,11 +93,17 @@ class MainActivity : AppCompatActivity() {
             // NOTE: Don't pass filepath as String.
             //  Don't call sendLoopParameter before calling playHaptic.
             val heFile = File(heFilePath)
-            RichTapUtils.getInstance().playHaptic(heFile, 100, 350, 255, 0) // 循环100次
+            val interval = binding.sbLoopInterval.progress
+            val amplitude = binding.sbLoopAmp.progress
+            val frequency = binding.sbLoopFreq.progress
+            RichTapUtils.getInstance().playHaptic(heFile, 100, interval, amplitude, frequency) // 循环100次
         }
         binding.btnStopLoop.setOnClickListener {
             RichTapUtils.getInstance().stop()
         }
+        binding.sbLoopAmp.setOnSeekBarChangeListener(seekBarListener)
+        binding.sbLoopFreq.setOnSeekBarChangeListener(seekBarListener)
+        binding.sbLoopInterval.setOnSeekBarChangeListener(seekBarListener)
 
         // Demonstrate how to play haptics with a sound effect
         // 演示如何伴随音效一起振动
@@ -144,6 +122,30 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer.start()
             RichTapUtils.getInstance().playHaptic(heSniperRifle, 0)
         }
+    }
+
+    private val seekBarListener =  object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+            if (fromUser) {
+                when (seekBar.id) {
+                    R.id.sbLoopAmp -> binding.txtLoopAmplitude.text = "Amplitude (${progress}):"
+                    R.id.sbLoopFreq -> binding.txtLoopFrequency.text = "Frequency (${progress}):"
+                    R.id.sbLoopInterval -> binding.txtLoopInterval.text = "Interval (${progress}):"
+                }
+            }
+        }
+        override fun onStartTrackingTouch(seekBar: SeekBar) {
+        }
+        override fun onStopTrackingTouch(seekBar: SeekBar) {
+            adjustLoopParameters()
+        }
+    }
+
+    private fun adjustLoopParameters() {
+        val amplitude = binding.sbLoopAmp.progress
+        val interval = binding.sbLoopInterval.progress
+        val frequency = binding.sbLoopFreq.progress
+        RichTapUtils.getInstance().sendLoopParameter(amplitude, interval, frequency)
     }
 
     override fun onDestroy() {
@@ -199,7 +201,8 @@ class MainActivity : AppCompatActivity() {
             R.id.about -> {
                 AlertDialog.Builder(this).apply {
                     setTitle("About...")
-                    setMessage("Version: ${BuildConfig.VERSION_NAME}")
+                    setMessage("App Version: ${BuildConfig.VERSION_NAME}\n" +
+                            "RichTap SDK: ${RichTapUtils.VERSION_NAME}")
                     setCancelable(true)
                     setPositiveButton("OK") { _, _ ->}
                     show()
