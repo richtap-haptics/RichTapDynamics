@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "RichTap-SAMPLE"
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var heSniperRifle: String
+    private lateinit var heJSON: String
     private lateinit var heFilePath: String
     private var currentPrebakedId = 0
 
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 从assets目录加载效果HE文件内容
-        heSniperRifle = loadHeFromAssets("Sniper Rifle.he")
+        heJSON = loadHeFromAssets("Car Ignite.he")
         heFilePath = dumpAssetToDataStorage("Car Ignite.he")
 
         // 演示SDK的预置触感效果，Effect ID范围：[PREBAKED_ID_MIN, PREBAKED_ID_MAX]
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         // 演示如何伴随音效一起振动
         binding.ivGun.setOnClickListener {
             try {
-                val fd = assets.openFd("Sniper Rifle.wav")
+                val fd = assets.openFd("Car Ignite.wav")
                 mediaPlayer.run {
                     reset()
                     setDataSource(fd.fileDescriptor, fd.startOffset, fd.length)
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             mediaPlayer.start()
-            RichTapUtils.getInstance().playHaptic(heSniperRifle, 0)
+            RichTapUtils.getInstance().playHaptic(heJSON, 0)
         }
     }
 

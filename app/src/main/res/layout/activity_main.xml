@@ -250,12 +250,12 @@
             android:layout_height="128dp"
             android:scaleType="fitXY"
             android:layout_gravity="center"
-            android:src="@drawable/sniper_rifle" />
+            android:src="@drawable/car_ignite" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Touch to fire!"/>
+            android:text="Touch to start!"/>
     </LinearLayout>
 
 </LinearLayout>
