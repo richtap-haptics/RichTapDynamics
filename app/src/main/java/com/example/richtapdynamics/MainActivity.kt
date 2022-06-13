@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         // Demonstrate how to play haptics with a sound effect
         // 演示如何伴随音效一起振动
-        binding.ivGun.setOnClickListener {
+        binding.ivEngine.setOnClickListener {
             try {
                 val fd = assets.openFd("Car Ignite.wav")
                 mediaPlayer.run {

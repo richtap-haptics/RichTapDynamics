@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:text="Test loop playback and adjust parameters on the fly"
+        android:text="Test loop playback and adjust parameters on the fly:"
         android:textColor="@color/purple_200"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -235,7 +235,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:text="Play with a sound effect"
+        android:text="Play with a sound effect:"
         android:textColor="@color/purple_200"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -245,7 +245,7 @@
         android:orientation="vertical"
         tools:text="Play haptics with a sound effect">
         <ImageView
-            android:id="@+id/ivGun"
+            android:id="@+id/ivEngine"
             android:layout_width="200dp"
             android:layout_height="128dp"
             android:scaleType="fitXY"
