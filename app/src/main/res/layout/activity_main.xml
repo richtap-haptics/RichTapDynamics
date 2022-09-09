@@ -171,7 +171,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-200"/>
+            android:text="-100"/>
         <SeekBar
             android:id="@+id/sbLoopFreq"
             android:layout_width="0dp"
@@ -180,12 +180,12 @@
             android:progressTint="@color/purple_200"
             android:thumbTint="@color/purple_500"
             android:progress="0"
-            android:min="-200"
-            android:max="200"/>
+            android:min="-100"
+            android:max="100"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="200"/>
+            android:text="100"/>
     </LinearLayout>
 
     <TextView
