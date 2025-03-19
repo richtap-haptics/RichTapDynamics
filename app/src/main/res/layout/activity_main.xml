@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Amplitude (200):"
+        android:text="Amplitude (255):"
         android:textColor="@color/purple_200"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,13 +74,13 @@
             android:layout_weight="1"
             android:progressTint="@color/purple_200"
             android:thumbTint="@color/purple_500"
-            android:progress="200"
+            android:progress="255"
             android:min="0"
-            android:max="255"/>
+            android:max="511"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="255"/>
+            android:text="511"/>
     </LinearLayout>
 
     <!-- NEW BLOCK -->
@@ -125,7 +125,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Amplitude (100):"
+        android:text="Amplitude (200):"
         android:textColor="@color/purple_200"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -145,13 +145,13 @@
             android:layout_weight="1"
             android:progressTint="@color/purple_200"
             android:thumbTint="@color/purple_500"
-            android:progress="100"
+            android:progress="200"
             android:min="0"
-            android:max="255"/>
+            android:max="511"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="255"/>
+            android:text="511"/>
     </LinearLayout>
 
     <TextView
